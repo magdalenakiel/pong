@@ -14,12 +14,12 @@ public class GamePanel extends JPanel implements Runnable{
     static final int GAME_HEIGHT = (int)(GAME_WIDTH * (5./9)); // 5./9, because 5/9=0, because the result will be int
     static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
     static final int BALL_DIAMETER = 20;
+    static final double MIN_BALL_X_DIRECTION = 0.2;
     static final int PADDLE_WIDTH = 25;
     static  final int PADDLE_HEIGHT = 100;
     Thread gameThread;
     Image image;
     Graphics graphics;
-    Random random;
     Paddle paddle1;
     Paddle paddle2;
     Ball ball;
@@ -37,7 +37,27 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread.start();
     }
     public void newBall(){
+        // set position of ball
+        int ballX = getMiddleX() - (BALL_DIAMETER / 2);
+        int ballY = getMiddleY() - (BALL_DIAMETER / 2);
 
+        // set ball direction
+        double randomAngle = Math.random() * Math.PI;
+        double directionX = Math.cos(randomAngle);
+        double directionY = Math.sin(randomAngle);
+
+        // assert that ball is going to the paddles
+        if (Math.abs(directionX) < MIN_BALL_X_DIRECTION) {
+            if (directionX >= 0) {
+                directionX = MIN_BALL_X_DIRECTION;
+            }
+            if (directionX < 0) {
+                directionX = -MIN_BALL_X_DIRECTION;
+            }
+        }
+
+        // create ball
+        ball = new Ball(ballX, ballY, BALL_DIAMETER, directionX, directionY);
     }
     public void newPaddles(){
         // set position of paddles
@@ -59,10 +79,12 @@ public class GamePanel extends JPanel implements Runnable{
     public void draw(Graphics g){
         paddle1.draw(g);
         paddle2.draw(g);
+        ball.draw(g);
     }
     public void move(){
         paddle1.move();
         paddle2.move();
+        ball.move();
     }
     public void checkCollisions(){
         correctPaddlePosition(paddle1);
@@ -97,6 +119,15 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
+    public int getMiddleX(){
+        return GAME_WIDTH / 2;
+    }
+
+    public int getMiddleY(){
+        return GAME_HEIGHT / 2;
+    }
+
+
     public class AL extends KeyAdapter{
         @Override
         public void keyPressed(KeyEvent e) {
