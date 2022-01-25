@@ -9,13 +9,13 @@ public class Paddle extends Rectangle{
     int id;
     int yVelocity;
 
-    public Paddle(){
-
+    public Paddle(int x, int y, int PADDLE_WIDTH, int PADDLE_HEIGHT, int id){
+        super(x, y, PADDLE_WIDTH, PADDLE_HEIGHT);
     }
     public void keyPressed(KeyEvent e){
 
     }
-    public void keyRelesed(KeyEvent e){
+    public void keyReleased(KeyEvent e){
 
     }
     public void setYDirection(int yDirection){
@@ -25,6 +25,7 @@ public class Paddle extends Rectangle{
 
     }
     public void draw(Graphics g){
-
+        g.setColor(Color.WHITE);
+        g.fillRect(x, y, width, height);
     }
 }
