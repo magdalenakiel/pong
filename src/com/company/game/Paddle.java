@@ -6,28 +6,28 @@ import javax.swing.*;
 
 
 public class Paddle extends Rectangle{
-    int up_event;
-    int down_event;
+    int up_code;
+    int down_code;
     int paddleYVelocity = 0;
     int PADDLE_SPEED = 10;
 
-    public Paddle(int x, int y, int width, int height, int up_event, int down_event){
+    public Paddle(int x, int y, int width, int height, int up_code, int down_code){
         super(x, y, width, height);
-        this.up_event = up_event;
-        this.down_event = down_event;
+        this.up_code = up_code;
+        this.down_code = down_code;
     }
     public void keyPressed(KeyEvent e){
-        if (e.getKeyCode() == up_event) {
+        if (e.getKeyCode() == up_code) {
             setPaddleYVelocity(-PADDLE_SPEED);
         }
-        if (e.getKeyCode() == down_event) {
+        if (e.getKeyCode() == down_code) {
             setPaddleYVelocity(PADDLE_SPEED);
         }
     }
 
     public void keyReleased(KeyEvent e){
         // stop the paddle if released key is responsible for current direction
-        if (e.getKeyCode() == up_event && paddleYVelocity < 0 || e.getKeyCode() == down_event && paddleYVelocity > 0){
+        if (e.getKeyCode() == up_code && paddleYVelocity < 0 || e.getKeyCode() == down_code && paddleYVelocity > 0){
             setPaddleYVelocity(0);
         }
     }
