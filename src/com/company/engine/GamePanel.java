@@ -64,9 +64,21 @@ public class GamePanel extends JPanel implements Runnable{
         paddle1.move();
         paddle2.move();
     }
-    public void checkCollision(){
+    public void checkCollisions(){
+        correctPaddlePosition(paddle1);
+        correctPaddlePosition(paddle2);
 
     }
+
+    public void correctPaddlePosition(Paddle paddle){
+        if (paddle.y <= 0){
+            paddle.setLocation(paddle.x, 0);
+        }
+        if (paddle.y + paddle.height >= GAME_HEIGHT) {
+            paddle.setLocation(paddle.x, GAME_HEIGHT - paddle.height);
+        }
+    }
+
     public void run(){
         // game loop
         long lastTime = System.nanoTime();
@@ -79,7 +91,7 @@ public class GamePanel extends JPanel implements Runnable{
             // if the last time the screen was refreshed was earlier that refresh period time ago
             if (now - lastTime >= refreshPeriod) {
                 move();
-                checkCollision();
+                checkCollisions();
                 repaint();
                 lastTime = now;
             }
