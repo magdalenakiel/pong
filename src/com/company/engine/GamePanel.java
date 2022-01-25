@@ -47,8 +47,8 @@ public class GamePanel extends JPanel implements Runnable{
         int paddlesY = (GAME_HEIGHT/2) - PADDLE_HEIGHT / 2;
 
         // create paddles
-        paddle1 = new Paddle(paddle1X, paddlesY, PADDLE_WIDTH, PADDLE_HEIGHT, 1);
-        paddle2 = new Paddle(paddle2X, paddlesY, PADDLE_WIDTH, PADDLE_HEIGHT, 2);
+        paddle1 = new Paddle(paddle1X, paddlesY, PADDLE_WIDTH, PADDLE_HEIGHT, KeyEvent.VK_W, KeyEvent.VK_S);
+        paddle2 = new Paddle(paddle2X, paddlesY, PADDLE_WIDTH, PADDLE_HEIGHT, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
     }
     public void paint(Graphics g){
         image = createImage(getWidth(), getHeight());
@@ -61,7 +61,8 @@ public class GamePanel extends JPanel implements Runnable{
         paddle2.draw(g);
     }
     public void move(){
-
+        paddle1.move();
+        paddle2.move();
     }
     public void checkCollision(){
 
@@ -87,11 +88,13 @@ public class GamePanel extends JPanel implements Runnable{
     public class AL extends KeyAdapter{
         @Override
         public void keyPressed(KeyEvent e) {
-
+            paddle1.keyPressed(e);
+            paddle2.keyPressed(e);
         }
         @Override
         public void keyReleased(KeyEvent e) {
-
+            paddle1.keyReleased(e);
+            paddle2.keyReleased(e);
         }
     }
 }
